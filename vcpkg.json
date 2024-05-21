@@ -1,0 +1,6 @@
+{
+  "dependencies" : [ "fmt", "gtest", {
+    "name" : "gtest",
+    "version>=" : "1.14.0#1"
+  } ]
+}
