@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <stdexcept>
+#include <numeric>
 
 static double genRandomDouble(double min, double max) {
     if (min > max) {
@@ -69,6 +70,63 @@ namespace algebra {
             std::vector<double> new_row;
             std::transform(row.begin(), row.end(), std::back_inserter(new_row), [c](double number) { return number * c; });
             _mat.push_back(new_row);
+        }
+        return _mat;
+    }
+
+    Matrix multiply(const Matrix& matrix1, const Matrix& matrix2) {
+        if (matrix1.empty() && matrix2.empty()) {
+            return {};
+        }
+        if (matrix1[0].size() != matrix2.size()) {
+            throw std::logic_error("matrix1'column not equal to matrix2's row");
+        }
+        const auto n = matrix1.size();
+        const auto m = matrix2[0].size();
+        const auto len = matrix1[0].size();
+        Matrix _mat;
+        for (size_t i = 0;i < n;i++) {
+            std::vector<double> row(m);
+            for (size_t j = 0;j < m;j++) {
+                double sum = 0;
+                for (size_t k = 0;k < len;k++) {
+                    sum += matrix1[i][k] * matrix2[k][j];
+                }
+                row[j] = sum;
+            }
+            _mat.push_back(std::move(row));
+        }
+        return _mat;
+    }
+
+    Matrix sum(const Matrix& matrix, double c) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return {};
+        }
+        Matrix _mat;
+        for (const auto& row : matrix) {
+            std::vector<double> new_row;
+            std::transform(row.begin(), row.end(), std::back_inserter(new_row), [c] (double item) { return item + c; });
+            _mat.push_back(std::move(new_row));
+        }
+        return _mat;
+    }
+
+    Matrix sum(const Matrix& matrix1, const Matrix& matrix2) {
+        if (matrix1.empty() && matrix2.empty()) {
+            return {};
+        }
+        if (matrix1.size() != matrix2.size()) {
+            throw std::logic_error("count of rows not equal!");
+        }
+        if (matrix1[0].size() != matrix2[0].size()) {
+            throw std::logic_error("count of columns not equal!");
+        }
+        Matrix _mat;
+        for (size_t i = 0;i < matrix1.size();i++) {
+            Row new_row(matrix1[0].size());
+            std::transform(matrix1[i].begin(), matrix1[i].end(), matrix2[i].begin(), new_row.begin(), std::plus<>());
+            _mat.push_back(std::move(new_row));
         }
         return _mat;
     }
