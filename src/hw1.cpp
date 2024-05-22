@@ -130,4 +130,60 @@ namespace algebra {
         }
         return _mat;
     }
+
+    Matrix transpose(const Matrix& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return {};
+        }
+        auto n = matrix.size();
+        auto m = matrix[0].size();
+        Matrix _mat;
+        for (auto i = 0;i < m;i++) {
+            Row row;
+            for (auto j = 0;j < n;j++) {
+                row.push_back(matrix[j][i]);
+            }
+            _mat.push_back(std::move(row));
+        }
+        return _mat;
+    }
+
+    Matrix minor(const Matrix& matrix, size_t n, size_t m) {
+        if (matrix.empty() || matrix[0].empty() || n >= matrix.size() || m >= matrix[0].size()) {
+            return matrix;
+        }
+        Matrix _mat;
+        for (size_t i = 0;i < matrix.size();i++) {
+            if (i == n) continue;
+            Row row;
+            for (size_t j = 0;j < matrix.size();j++) {
+                if (j != m) {
+                    row.push_back(matrix[i][j]);
+                }
+            }
+            _mat.push_back(std::move(row));
+        }
+        return _mat;
+    }
+
+    double determinant(const Matrix& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return 1;
+        }
+        if (matrix.size() != matrix[0].size()) {
+            throw std::logic_error("row != column");
+        }
+        if (matrix.size() == 2) {
+            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        }
+        // 以第一行展开
+        // TODO 递归如何优化？
+        double sum = 0;
+        for (size_t i = 0;i < matrix[0].size();i++) {
+            double symbol = i % 2 ? -1.0 : 1.0;
+            const auto& minorMat = minor(matrix, 0, i);
+            sum += symbol * matrix[0][i] * determinant(minorMat);
+        }
+        return sum;
+    }
 }

@@ -30,6 +30,16 @@ namespace algebra {
 
     // implement this function so that it adds 2 matrices to each other.
     Matrix sum(const Matrix& matrix1, const Matrix& matrix2);
+
+    // transpose implement this function so that it will generate the transpose matrix of the input matrix.
+    Matrix transpose(const Matrix& matrix);
+
+    // minor implement this function so that it will create the minor of the input matrix with respect to nth row and mth column.
+    // 在n阶行列式中，把所在的第i行与第j列划去后，所留下来的n-1阶行列式叫元的余子式。
+    Matrix minor(const Matrix& matrix, size_t n, size_t m);
+
+    // determinant implement this function so that it calculates the determinant of the input matrix.
+    double determinant(const Matrix& matrix);
 }
 
 #endif //AP_HW1_H
