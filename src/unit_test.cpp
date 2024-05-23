@@ -216,7 +216,7 @@ TEST(HW1Test, DETERMINANT2) {
     EXPECT_DOUBLE_EQ(algebra::determinant(matrix), 0);
 }
 
-#if 0
+
 TEST(HW1Test, INVERSE1) {
     // Caution: inverse of an empty matrix
     EXPECT_TRUE(algebra::inverse(Matrix{}).empty());
@@ -247,6 +247,7 @@ TEST(HW1Test, INVERSE2) {
     EXPECT_NEAR(inverse[3][1], 2.80, 0.03);
     EXPECT_NEAR(inverse[0][3], 0, 0.03);
 }
+
 
 TEST(HW1Test, CONCATENATE1) {
     // Caution: matrices with wrong dimensions cannot be concatenated
@@ -289,6 +290,7 @@ TEST(HW1Test, CONCATENATE2) {
     EXPECT_DOUBLE_EQ(matrix[1][3], matrix2[1][0]);
 }
 
+#if 0
 TEST(HW1Test, ERO_SWAP) {
     // Caution: r1 or r2 inputs are out of range
     EXPECT_THROW(algebra::ero_swap(Matrix{{1, 2}}, 0, 1), std::logic_error);

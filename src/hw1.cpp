@@ -186,4 +186,66 @@ namespace algebra {
         }
         return sum;
     }
+
+    // 逆矩阵的计算方法：伴随矩阵法 逆矩阵 = 伴随矩阵/行列式
+    // 先求余因子矩阵
+    Matrix inverse(const Matrix& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return {};
+        }
+        const auto n = matrix.size();
+        const auto m = matrix[0].size();
+        if (n != m) {
+            throw std::logic_error("non-square matrices have no inverse");
+        }
+        const auto det_of_matrix = determinant(matrix);
+        if (det_of_matrix < std::numeric_limits<double>::epsilon() && det_of_matrix > -std::numeric_limits<double>::epsilon()) {
+            throw std::logic_error("singular matrices have no inverse");
+        }
+
+        Matrix cofactor_matrix; // 余因子矩阵
+        for (auto i = 0;i < n;i++) {
+            Row row;
+            for (auto j = 0;j < m;j++) {
+                const auto& minor_mat = minor(matrix,i, j);
+                const auto det_of_minor_mat = determinant(minor_mat);
+                const double symbol = (i + j) % 2 ? -1 : 1;
+                row.push_back(symbol * det_of_minor_mat);
+            }
+            cofactor_matrix.push_back(std::move(row));
+        }
+        // 余因子矩阵的转置，即为matrix的伴随矩阵
+        const auto& transpose_of_temp_mat = transpose(cofactor_matrix);
+        // 得到矩阵的逆 = 伴随矩阵 / 行列式
+        return multiply(transpose_of_temp_mat, 1.0 / det_of_matrix);
+    }
+
+    Matrix concatenate(const Matrix& matrix1, const Matrix& matrix2, int axis) {
+        if (axis != 0 && axis != 1) {
+            throw std::logic_error("axis must equal 1 or 2");
+        }
+        if (matrix1.empty() || matrix1[0].empty()) {
+            return matrix2;
+        }
+        if (matrix2.empty() || matrix2[0].empty()) {
+            return matrix1;
+        }
+        Matrix new_mat = matrix1;
+        if (axis == 0) {
+            if (matrix1[0].size() != matrix2[0].size()) {
+                throw std::logic_error("matrix1[0].size() != matrix2[0].size()");
+            }
+            for (const auto& row : matrix2) {
+                new_mat.push_back(row);
+            }
+        } else {
+            if (matrix1.size() != matrix2.size()) {
+                throw std::logic_error("matrix1.size() != matrix2.size()");
+            }
+            for (auto i = 0;i < matrix1.size();i++) {
+                new_mat[i].insert(new_mat[i].end(), matrix2[i].begin(), matrix2[i].end());
+            }
+        }
+        return new_mat;
+    }
 }
