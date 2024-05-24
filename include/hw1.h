@@ -50,6 +50,15 @@ namespace algebra {
     // concatenate implement this function so that it will concatenate matrix1 and matrix2 along the specified axis. (axis=0: on top of each other | axis=1: alongside each other).
     // 矩阵拼接 axis = 0: 往下拼接，增加行; axis = 1: 往右拼接，增加列
     Matrix concatenate(const Matrix& matrix1, const Matrix& matrix2, int axis = 0);
+
+    // row变换1：将第r1行与第r2行交换
+    Matrix ero_swap(const Matrix& matrix, size_t r1, size_t r2);
+
+    // multiply multiplies every element in rth row with constant number c.
+    Matrix ero_multiply(const Matrix& matrix, size_t r, double c);
+
+    // sum adds   r1th x c   into r2th row.
+    Matrix ero_sum(const Matrix& matrix, size_t r1, double c, size_t r2);
 }
 
 #endif //AP_HW1_H

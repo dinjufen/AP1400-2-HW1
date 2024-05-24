@@ -290,7 +290,6 @@ TEST(HW1Test, CONCATENATE2) {
     EXPECT_DOUBLE_EQ(matrix[1][3], matrix2[1][0]);
 }
 
-#if 0
 TEST(HW1Test, ERO_SWAP) {
     // Caution: r1 or r2 inputs are out of range
     EXPECT_THROW(algebra::ero_swap(Matrix{{1, 2}}, 0, 1), std::logic_error);
@@ -332,6 +331,7 @@ TEST(HW1Test, ERO_SUM) {
         EXPECT_NEAR(ero[3][i], matrix[0][i]*2+matrix[3][i], 0.03);
 }
 
+#if 0
 TEST(HW1Test, UPPER_TRIANGULAR1) {
     // Caution: empty matrix
     EXPECT_TRUE(algebra::upper_triangular(Matrix{}).empty());

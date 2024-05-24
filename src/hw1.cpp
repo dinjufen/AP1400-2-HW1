@@ -248,4 +248,37 @@ namespace algebra {
         }
         return new_mat;
     }
+
+    Matrix ero_swap(const Matrix& matrix, size_t r1, size_t r2) {
+        if (r1 >= matrix.size() || r2 >= matrix.size()) {
+            throw std::logic_error("row index out of range");
+        }
+        Matrix _mat = matrix;
+        std::swap(_mat[r1], _mat[r2]);
+        return _mat;
+    }
+
+    Matrix ero_multiply(const Matrix& matrix, size_t r, double c) {
+        if (r >= matrix.size()) {
+            throw std::logic_error("row index out of range");
+        }
+        Matrix _mat = matrix;
+        auto& row = _mat[r];
+        std::transform(row.begin(), row.end(), row.begin(), [c](double item) { return item * c; });
+        return _mat;
+    }
+
+    Matrix ero_sum(const Matrix& matrix, size_t r1, double c, size_t r2) {
+        if (r1 >= matrix.size() || r2>= matrix.size()) {
+            throw std::logic_error("row index out of range");
+        }
+        Matrix _mat = matrix;
+        auto row1_mul = _mat[r1];
+        std::transform(row1_mul.begin(), row1_mul.end(), row1_mul.begin(), [c](double item){ return c * item; });
+        auto& row2 = _mat[r2];
+        for (auto i = 0;i < row2.size();i++) {
+            row2[i] += row1_mul[i];
+        }
+        return _mat;
+    }
 }
