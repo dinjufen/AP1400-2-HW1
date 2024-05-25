@@ -59,6 +59,10 @@ namespace algebra {
 
     // sum adds   r1th x c   into r2th row.
     Matrix ero_sum(const Matrix& matrix, size_t r1, double c, size_t r2);
+
+    // upper triangular implement this function so that it will calculate the upper triangular form of the matrix using the ERO operations.
+    // 上三角矩阵
+    Matrix upper_triangular(const Matrix& matrix);
 }
 
 #endif //AP_HW1_H

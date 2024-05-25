@@ -331,7 +331,7 @@ TEST(HW1Test, ERO_SUM) {
         EXPECT_NEAR(ero[3][i], matrix[0][i]*2+matrix[3][i], 0.03);
 }
 
-#if 0
+
 TEST(HW1Test, UPPER_TRIANGULAR1) {
     // Caution: empty matrix
     EXPECT_TRUE(algebra::upper_triangular(Matrix{}).empty());
@@ -356,15 +356,18 @@ TEST(HW1Test, UPPER_TRIANGULAR1) {
     EXPECT_NEAR(res2[2][2], 62, 0.03);
 }
 
+
 TEST(HW1Test, BONUS) {
     // test case
     Matrix matrix2{{0, 2, 3}, {4, 7, 5}, {6, 1, 3}};
     Matrix res2{algebra::upper_triangular(matrix2)};
+    algebra::show(res2);
     EXPECT_NEAR(res2[0][0], 4, 0.03);
     EXPECT_NEAR(res2[1][0], 0, 0.03);
     EXPECT_NEAR(res2[2][0], 0, 0.03);
     EXPECT_NEAR(res2[2][1], 0, 0.03);
     EXPECT_NEAR(res2[2][2], 39/4.0, 0.03);
 }
+#if 0
 #endif
 

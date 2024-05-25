@@ -281,4 +281,25 @@ namespace algebra {
         }
         return _mat;
     }
+
+    Matrix upper_triangular(const Matrix& matrix) {
+        if (matrix.empty() || matrix[0].empty()) {
+            return matrix;
+        }
+        if (matrix.size() != matrix[0].size()) {
+            throw std::logic_error("row != column");
+        }
+        const size_t N = matrix.size();
+        Matrix mat = matrix;
+        // 按照列的顺序依次将三角部分变为零
+        for (auto i = 0;i < N;i++) {
+            for (auto j = i + 1;j < N;j++) {
+                double factor = -mat[j][i] / mat[i][i];
+                for (auto k = i;k < N;k++) {
+                    mat[j][k] += factor * mat[i][k];
+                }
+            }
+        }
+        return mat;
+    }
 }
